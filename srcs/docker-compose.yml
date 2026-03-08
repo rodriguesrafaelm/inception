@@ -1,0 +1,91 @@
+services:
+  mariadb:
+	container_name: mariadb
+	restart: unlees-stopped
+	build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+      args:
+        WP_DB_NAME: ${WP_DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - inception-net
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb:/var/lib/mysql
+    env_file:
+      - .env
+			
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+      args:
+        DB_HOST: ${DB_HOST}
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        WP_DB_NAME: ${WP_DB_NAME}
+        WP_TABLE_PREFIX: ${WP_TABLE_PREFIX}
+        WP_SITE_TITLE: ${WP_SITE_TITLE}
+        WP_ADMIN_USER: ${WP_ADMIN_USER}
+        WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+        WP_USER: ${WP_USER}
+        WP_PASSWORD: ${WP_PASSWORD}
+        WP_EMAIL: ${WP_EMAIL}
+        WP_HOST: ${WP_HOST}
+    volumes:
+      - wordpress:/var/www/
+    env_file:
+      - .env
+    networks:
+      - inception-net
+    
+  nginx:
+    container_name: nginx
+    depends_on:
+      - wordpress
+      - mariadb
+    restart: unless-stopped
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+      args:
+        WP_HOST: ${WP_HOST}
+    networks:
+          - inception-net
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/
+    env_file:
+      - .env
+
+
+  volumes:
+    wordpress:
+      driver: local
+      driver_ops:
+        type: none
+        device: ${HOME}/data/wordpress
+        o: bind
+    mariadb:    
+      driver: local
+      driver_opts:
+        type: none
+        device: ${HOME}/data/mariadb
+        o: bind
+  
+  networks:
+    inception-net:
+      name: inception-net
+      driver: bridge
+
+
+
