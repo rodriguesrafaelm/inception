@@ -1,8 +1,8 @@
 FROM debian:bullseye
 
-ENV WP_DB_NAME=test
-ENV DB_USER=user1
-ENV DB_PASSWORD=password
+ARG WP_DB_NAME
+ARG DB_USER
+ARG DB_PASSWORD
 ENV DEBIAN_FRONTEND=noninteractive
 
 
