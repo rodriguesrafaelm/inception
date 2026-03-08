@@ -1,17 +1,16 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update -y && \
 	apt install -y ca-certificates \
-	php7.4-mbstring \
+	php8.2-mbstring \
 	php-tokenizer \
-	php7.4-xml \
-	php7.4-mysql \
-	php7.4-zip \
-	php7.4-fpm \
-	php7.4-curl \
-	php7.4-fileinfo \
+	php8.2-xml \
+	php8.2-mysql \
+	php8.2-zip \
+	php8.2-fpm \
+	php8.2-curl \
 	curl \
 	wget \
 	unzip
@@ -37,13 +36,13 @@ RUN curl -O https://wordpress.org/wordpress-6.7.1.zip \
 	&& mv wordpress/* . \
 	&& rm -rf wordpress wordpress-6.7.1.zip
 	
-RUN curl -O https://github.com/wp-cli/wp-cli/releases/download/v2.11.0/wp-cli-2.11.0.phar \
-	&& chmod +x wp-cli-2.11.0.phar \
-	&& mv wp-cli-2.11.0.phar /usr/local/bin/wp
+RUN wget https://github.com/wp-cli/wp-cli/releases/download/v2.11.0/wp-cli-2.11.0.phar && \
+    chmod +x wp-cli-2.11.0.phar && \
+    mv wp-cli-2.11.0.phar /usr/local/bin/wp
 
 
-COPY ./www.conf /etc/php/7.4/fpm/pool.d/www.conf
-RUN chmod 777 /etc/php/7.4/fpm/pool.d/www.conf
+COPY ./www.conf /etc/php/8.2/fpm/pool.d/www.conf
+RUN chmod 777 /etc/php/8.2/fpm/pool.d/www.conf
 
 RUN mkdir -p /run/php
 
@@ -51,5 +50,5 @@ COPY ./config.sh /config.sh
 
 RUN chmod +x /config.sh && chmod -R 0777 wp-content/
 
-CMD ["/bin/sh", "-c", "/config.sh && php-fpm7.4 	"]
+CMD ["/bin/sh", "-c", "/config.sh && php-fpm8.2 -F"]
 

@@ -1,9 +1,10 @@
-FROM debian:bullseye
+FROM debian:bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG WP_DB_NAME
 ARG DB_USER
 ARG DB_PASSWORD
-ENV DEBIAN_FRONTEND=noninteractive
 
 
 RUN apt update -y \
@@ -13,7 +14,7 @@ RUN apt update -y \
 
 EXPOSE 3306
 
-RUN mkdir /var/run/mysqld 
+RUN mkdir /var/run/mysqld
 RUN chmod 777 /var/run/mysqld
 
 COPY ./my.cnf /etc/mysql/my.cnf

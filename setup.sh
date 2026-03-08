@@ -4,4 +4,4 @@ curl -fsSL https://get.docker.com | sh
 
 sudo usermod -aG docker $USER
 
-sudo echo "127.0.0.1 rafaelro.42.fr" | cat > /etc/hosts
+sudo echo "127.0.0.1 rafaelro.42.fr" | sudo tee -a /etc/hosts

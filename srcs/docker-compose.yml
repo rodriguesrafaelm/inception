@@ -59,7 +59,7 @@ services:
       args:
         WP_HOST: ${WP_HOST}
     networks:
-          - inception-net
+      - inception-net
     ports:
       - "443:443"
     volumes:
