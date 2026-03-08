@@ -1,8 +1,8 @@
 services:
   mariadb:
-	container_name: mariadb
-	restart: unlees-stopped
-	build:
+    container_name: mariadb
+    restart: unless-stopped
+    build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
       args:
@@ -17,7 +17,7 @@ services:
       - mariadb:/var/lib/mysql
     env_file:
       - .env
-			
+
   wordpress:
     container_name: wordpress
     depends_on:
@@ -68,24 +68,21 @@ services:
       - .env
 
 
-  volumes:
-    wordpress:
-      driver: local
-      driver_ops:
-        type: none
-        device: ${HOME}/data/wordpress
-        o: bind
-    mariadb:    
-      driver: local
-      driver_opts:
-        type: none
-        device: ${HOME}/data/mariadb
-        o: bind
-  
-  networks:
-    inception-net:
-      name: inception-net
-      driver: bridge
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/wordpress
+      o: bind
+  mariadb:    
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/mariadb
+      o: bind
 
-
-
+networks:
+  inception-net:
+    name: inception-net
+    driver: bridge
