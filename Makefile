@@ -14,3 +14,12 @@ detach: build
 
 down:
 	docker compose -f ./srcs/docker-compose.yml down --remove-orphans
+
+clean: down
+	sudo rm -rf $(HOME)/data/mariadb
+	sudo rm -rf $(HOME)/data/wordpress
+
+fclean: down
+	sudo rm -rf $(HOME)/data
+
+re: fclean all
