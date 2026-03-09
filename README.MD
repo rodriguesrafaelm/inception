@@ -56,9 +56,21 @@ DB_HOST=mariadb
 make
 ```
 
-4. Access the website at `https://localhost` or `https://rafaelro.42.fr`
+4. Prepare hosts entry for local HTTPS:
+```bash
+sudo echo "127.0.0.1 rafaelro.42.fr" | sudo tee -a /etc/hosts
+```
+or
 
-5. To check container status use:
+- Open /etc/hosts
+- Add this at the end of the file
+```
+127.0.0.1 rafaelro.42.fr
+```
+
+5. Access the website at `https://localhost` or `https://rafaelro.42.fr`
+
+6. To check container status use:
 ```bash
 docker ps
 ```
