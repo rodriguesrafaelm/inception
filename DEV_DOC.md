@@ -1,6 +1,6 @@
 ### Prerequisites
 
-- Docker 29.3.0 and Docker Compose installed
+- Docker 29.3.0 and Docker Compose installed (https://docs.docker.com/engine/install/ubuntu/)
 - GNU Make 4.3
 - Root or sudo access to create directories in `/home/<user>/data`
 
@@ -16,21 +16,24 @@ sudo usermod -aG docker $USER
 
 3. Configure environment variables in `srcs/.env`:
 ```bash
-# Database Configuration
 WP_DB_NAME=wordpress
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 
 # WordPress Admin
 WP_ADMIN_USER=admin
-WP_ADMIN_PASSWORD=your_admin_password
+WP_ADMIN_PASSWORD=password
 WP_ADMIN_EMAIL=admin@example.com
 WP_SITE_TITLE="My WordPress Site"
 
 # WordPress User
 WP_USER=user
-WP_PASSWORD=user_password
+WP_PASSWORD=password
 WP_EMAIL=user@example.com
+
+# WP Data
+WP_HOST=rafaelro.42.fr
+WP_TABLE_PREFIX=wp_
 
 # Database Host
 DB_HOST=mariadb
